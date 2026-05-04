@@ -37,7 +37,8 @@ jobs:
       DB_USER: controltower_user
       DB_PASSWORD: Aa9886603727$
       DB_HOST: 127.0.0.1
-      DB_PORT: 5432
+      DB_PORT:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       DJANGO_SETTINGS_MODULE: config.settings
 
