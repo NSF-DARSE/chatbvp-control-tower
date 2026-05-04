@@ -1,4 +1,4 @@
-# adapters/ollama_client.py
+
 import json
 import re
 import requests
