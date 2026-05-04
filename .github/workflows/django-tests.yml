@@ -17,12 +17,12 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_DB: controltower
-          POSTGRES_USER: controltower_user
-          POSTGRES_PASSWORD: controltower_password
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U controltower_user -d controltower"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -33,15 +33,16 @@ jobs:
           - 6379:6379
 
     env:
+      # FORCE override whatever is in settings.py
       DB_NAME: controltower
-      DB_USER: controltower_user
-      DB_PASSWORD: controltower_password
+      DB_USER: postgres
+      DB_PASSWORD: postgres
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
 
       POSTGRES_DB: controltower
-      POSTGRES_USER: controltower_user
-      POSTGRES_PASSWORD: controltower_password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: 127.0.0.1
       POSTGRES_PORT: 5432
 
@@ -67,7 +68,7 @@ jobs:
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U controltower_user -d controltower; do
+          until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
             echo "Waiting for postgres..."
             sleep 2
           done
