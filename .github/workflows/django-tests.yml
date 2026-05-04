@@ -73,5 +73,5 @@ jobs:
       - name: Run migrations
         run: python manage.py migrate
 
-      - name: Run tests
-        run: python manage.py test tests --verbosity=2
+      - name: Run UnitTestCases
+        run: python manage.py test UnitTestCases --verbosity=2
