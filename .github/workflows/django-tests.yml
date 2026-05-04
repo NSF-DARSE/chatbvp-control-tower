@@ -1,0 +1,77 @@
+name: Control Tower - Django Tests (UAT)
+
+on:
+  push:
+    branches:
+      - UAT-environment
+  pull_request:
+    branches:
+      - UAT-environment
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: controltower
+          POSTGRES_USER: ctuser
+          POSTGRES_PASSWORD: ctpassword
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U ctuser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+
+    env:
+      DB_NAME: controltower
+      DB_USER: ctuser
+      DB_PASSWORD: ctpassword
+      DB_HOST: localhost
+      DB_PORT: 5432
+
+      # Django settings
+      DJANGO_SETTINGS_MODULE: config.settings
+
+      # Dummy values to avoid crashes
+      MATRIX_HOMESERVER_URL: http://localhost:8008
+      MATRIX_WEB_URL: http://localhost:8080
+      MATRIX_BASE_URL: http://localhost:8080
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Wait for Postgres
+        run: |
+          until pg_isready -h localhost -p 5432 -U ctuser; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Run migrations
+        run: |
+          python manage.py migrate
+
+      - name: Run tests (tests folder)
+        run: |
+          python manage.py test tests --verbosity=2
