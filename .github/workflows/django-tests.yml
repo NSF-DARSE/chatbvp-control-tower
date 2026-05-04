@@ -1,12 +1,17 @@
-name: Control Tower - Django Tests (UAT)
+name: Control Tower - Django Tests
 
 on:
   push:
     branches:
+      - main
       - UAT-environment
   pull_request:
     branches:
+      - main
       - UAT-environment
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   test:
@@ -38,11 +43,8 @@ jobs:
       DB_PASSWORD: Aa9886603727$
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
       DJANGO_SETTINGS_MODULE: config.settings
 
-      # Dummy values for your integrations
       MATRIX_HOMESERVER_URL: http://localhost:8008
       MATRIX_WEB_URL: http://localhost:8080
       MATRIX_BASE_URL: http://localhost:8080
@@ -63,15 +65,13 @@ jobs:
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U controltower_user -d controltower_db; do
+          until pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME"; do
             echo "Waiting for postgres..."
             sleep 2
           done
 
       - name: Run migrations
-        run: |
-          python manage.py migrate
+        run: python manage.py migrate
 
       - name: Run tests
-        run: |
-          python manage.py test tests --verbosity=2
+        run: python manage.py test tests --verbosity=2
