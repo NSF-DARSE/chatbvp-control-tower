@@ -17,12 +17,12 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_DB: controltower
-          POSTGRES_USER: ctuser
-          POSTGRES_PASSWORD: ctpassword
+          POSTGRES_USER: controltower_user
+          POSTGRES_PASSWORD: controltower_password
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ctuser"
+          --health-cmd="pg_isready -U controltower_user -d controltower"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -34,15 +34,19 @@ jobs:
 
     env:
       DB_NAME: controltower
-      DB_USER: ctuser
-      DB_PASSWORD: ctpassword
-      DB_HOST: localhost
+      DB_USER: controltower_user
+      DB_PASSWORD: controltower_password
+      DB_HOST: 127.0.0.1
       DB_PORT: 5432
 
-      # Django settings
+      POSTGRES_DB: controltower
+      POSTGRES_USER: controltower_user
+      POSTGRES_PASSWORD: controltower_password
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+
       DJANGO_SETTINGS_MODULE: config.settings
 
-      # Dummy values to avoid crashes
       MATRIX_HOMESERVER_URL: http://localhost:8008
       MATRIX_WEB_URL: http://localhost:8080
       MATRIX_BASE_URL: http://localhost:8080
@@ -63,7 +67,7 @@ jobs:
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h localhost -p 5432 -U ctuser; do
+          until pg_isready -h 127.0.0.1 -p 5432 -U controltower_user -d controltower; do
             echo "Waiting for postgres..."
             sleep 2
           done
@@ -72,6 +76,6 @@ jobs:
         run: |
           python manage.py migrate
 
-      - name: Run tests (tests folder)
+      - name: Run tests
         run: |
           python manage.py test tests --verbosity=2
