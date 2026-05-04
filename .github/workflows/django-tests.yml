@@ -16,13 +16,13 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: controltower
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: controltower_db
+          POSTGRES_USER: controltower_user
+          POSTGRES_PASSWORD: Aa9886603727$
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -U controltower_user -d controltower_db"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -33,21 +33,15 @@ jobs:
           - 6379:6379
 
     env:
-      # FORCE override whatever is in settings.py
-      DB_NAME: controltower
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_NAME: controltower_db
+      DB_USER: controltower_user
+      DB_PASSWORD: Aa9886603727$
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
 
-      POSTGRES_DB: controltower
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: 127.0.0.1
-      POSTGRES_PORT: 5432
-
       DJANGO_SETTINGS_MODULE: config.settings
 
+      # Dummy values for your integrations
       MATRIX_HOMESERVER_URL: http://localhost:8008
       MATRIX_WEB_URL: http://localhost:8080
       MATRIX_BASE_URL: http://localhost:8080
@@ -68,7 +62,7 @@ jobs:
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
+          until pg_isready -h 127.0.0.1 -p 5432 -U controltower_user -d controltower_db; do
             echo "Waiting for postgres..."
             sleep 2
           done
