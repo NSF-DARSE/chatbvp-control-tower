@@ -407,10 +407,14 @@ def process_event(self, event_id):
         # Final workspace status should depend on result
         if ws.status == "AI_FAILED":
             final_status = "AI_FAILED"
-        elif (ws.next_actions or "").strip() != " No pending actions":
-            final_status = "READY"  # needs some manual action (like matrix room)
+        elif (ws.next_actions or "").strip() != "No pending actions":
+            final_status = "READY"
         else:
-            final_status = "DONE"  # workflow completed
+            final_status = "DONE"
+
+        ws.status = final_status
+        ws.save(update_fields=["status", "updated_at"])
+        log_step(cid, "WORKSPACE_STATUS", "SUCCESS", final_status)
 
         ws.status = final_status
         ws.save(update_fields=["status", "updated_at"])
