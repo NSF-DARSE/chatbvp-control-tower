@@ -25,7 +25,7 @@ def create_room(name: str, invitees: list[str] | None = None) -> str:
         "is_direct": False,
     }
 
-    # ✅ Auto-invite staff at room creation
+    # Auto invite staff at room creation
     if invitees:
         payload["invite"] = invitees
 

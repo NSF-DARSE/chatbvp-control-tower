@@ -14,6 +14,7 @@ class OllamaError(Exception):
 
 def ollama_generate(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 300) -> Dict[str, Any]:
     """
+    #comments
     Uses Ollama /api/generate and forces JSON output via `format: "json"`.
     """
     url = f"{OLLAMA_BASE_URL}/api/generate"
@@ -24,7 +25,7 @@ def ollama_generate(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 300)
         "format": "json",
         "options": {
             "temperature": 0.2,
-            "num_predict": 2048,  # 🔥 Increase output tokens
+            "num_predict": 2048,
             "num_ctx": 4096
         },
     }
@@ -39,6 +40,7 @@ def ollama_generate(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 300)
 
 def extract_text(raw: Dict[str, Any]) -> str:
     """
+    #comments
     Ollama returns { response: "..." } for non-streaming /api/generate.
     """
     text = raw.get("response", "")
@@ -49,18 +51,20 @@ def extract_text(raw: Dict[str, Any]) -> str:
 
 def _extract_first_json_object(text: str) -> Optional[str]:
     """
+    #comments
     If the model returns extra text, try to grab the first {...} JSON object.
     """
-    # Greedy but safe enough for single JSON object outputs
+    # JSON object outputs
     m = re.search(r"\{.*\}", text, flags=re.DOTALL)
     return m.group(0).strip() if m else None
 
 
 def parse_structured(text: str) -> Dict[str, Any]:
     """
+    #cokmments
     Robust JSON parse:
     1) direct json.loads
-    2) extract {...} and parse again
+    2) extracting {...} and parsing again
     """
     try:
         return json.loads(text)

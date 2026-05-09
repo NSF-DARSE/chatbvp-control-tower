@@ -112,7 +112,7 @@
 
   <div class="container">
 
-    <!-- Correlation Info -->
+
     <div class="card">
       <div style="margin-bottom:8px;">
         <strong>Correlation ID:</strong> {{ correlation_id }}
@@ -123,7 +123,7 @@
       <a class="btn-link" href="/dashboard/">← Back to Dashboard</a>
     </div>
 
-    <!-- Logs Table -->
+
     <div class="card">
       <table>
         <tr>
@@ -138,7 +138,7 @@
           <td>{{ l.created_at }}</td>
           <td>{{ l.step_name }}</td>
 
-          <!-- ✅ STATUS FIX -->
+          <!-- STATUS FIX -->
           <td>
             {% if l.message == "AI_FAILED" %}
               <span class="badge FAILED">FAILED</span>

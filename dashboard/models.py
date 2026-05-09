@@ -1,6 +1,6 @@
 
 
-# Create your models here.
+# Creating  my models here.
 
 
 from django.db import models
@@ -14,7 +14,7 @@ class Workspace(models.Model):
 
     matrix_room_id = models.CharField(max_length=255, blank=True, null=True)
 
-    # We reuse this existing column name as the “AI session id”
+    # i am  reusing this existing column name as the “AI session id”
     # (ex: ollama-session-24)
     webui_session_id = models.CharField(max_length=255, blank=True, null=True)
 
@@ -26,7 +26,7 @@ class Workspace(models.Model):
     requester_email = models.EmailField(blank=True, default="")
     intake_id = models.IntegerField(blank=True, null=True)
 
-    #  NEW CODE START (Owner fields)
+
 
     owner_name = models.CharField(max_length=255, blank=True, default="None")
 
@@ -38,7 +38,7 @@ class Workspace(models.Model):
         on_delete=models.SET_NULL,
     )
 
-    # NEW CODE END
+
 
 
 

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 
 
-CC_EMAIL = "tower2372@gmail.com"  # ✅ keep hardcoded exactly
+CC_EMAIL = "tower2372@gmail.com"  # hardcoded  for now later BSP can change to there email id
 
 
 def _subject_for(action: str) -> str:
@@ -84,8 +84,9 @@ def send_team_member_email(
     to_email: str,
 ) -> None:
     """
+    #comments
     Sends email TO the member + CC tower2372@gmail.com
-    Raises error if SMTP fails.
+    Raises error if SMTP fails ( cc we can change later ) .
     """
     to_email = (to_email or "").strip()
     if not to_email:

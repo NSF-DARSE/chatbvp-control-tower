@@ -26,7 +26,7 @@ class DashboardTest(TestCase):
             owner_name="None"
         )
 
-        # simulate assignment
+
         ws.owner_member = member
         ws.owner_name = member.full_name
         ws.save()

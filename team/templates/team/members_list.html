@@ -149,7 +149,7 @@
       <a class="tab {% if tab == 'inactive' %}active{% endif %}" href="/team/members/?tab=inactive">Inactive</a>
     </div>
 
-    <!-- ✅ ALWAYS visible on BOTH tabs -->
+
     <a class="btn"
        href="/team/members/add/?tab={{ tab }}&first_name={{ first_name }}&last_name={{ last_name }}&email={{ email }}&page={{ page_obj.number }}">
       + Add Member
@@ -165,7 +165,7 @@
         <th style="width:220px; text-align:right;">Actions</th>
       </tr>
 
-      <!-- ✅ search row is GET form and ends here (does NOT wrap tbody) -->
+      <!-- search row is GET form and ends here (does NOT wrap tbody) -->
       <tr class="search-row">
         <th>
           <form method="get">
