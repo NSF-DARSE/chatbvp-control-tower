@@ -25,7 +25,7 @@ def ollama_generate(prompt: str, model: str = DEFAULT_MODEL, timeout: int = 300)
         "format": "json",
         "options": {
             "temperature": 0.2,
-            "num_predict": 2048,  # 🔥 Increase output tokens
+            "num_predict": 2048,
             "num_ctx": 4096
         },
     }
