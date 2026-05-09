@@ -15,9 +15,10 @@ from team.models import TeamMember
 
 def assign_owner_if_missing(ws: Workspace):
     """
-    Assign one active team member as owner.
+    #comments
+    Assigning one active team member as owner.
     If no active team member exists, owner becomes None.
-    Existing owner_name is not overwritten, so deleted/inactive owner still shows.
+    Existing owner_name is not overwritten, so deleted/inactive owner still shows in UI ,Later will change according to BSP .
     """
 
     if ws.owner_name and ws.owner_name != "None":
@@ -38,7 +39,7 @@ def assign_owner_if_missing(ws: Workspace):
 def dashboard_home(request):
     qs = Workspace.objects.order_by("-updated_at")
 
-    # Filters
+    # filters in dashboard page this is elastic search
     event_type = (request.GET.get("event_type") or "").strip()
     status = (request.GET.get("status") or "").strip()
     first_name = (request.GET.get("first_name") or "").strip()
@@ -65,11 +66,11 @@ def dashboard_home(request):
     if owner:
         qs = qs.filter(Q(owner_name__icontains=owner))
 
-    # Assign owner only if missing
+    # assign owner only if missing
     for ws in qs:
         assign_owner_if_missing(ws)
 
-    # Pagination
+    # pagination  after 20 show next
     paginator = Paginator(qs, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -248,7 +249,7 @@ def create_matrix_room(request, workspace_id: int):
             ws.matrix_room_id = matrix_create_room(f"ct-{ws.correlation_id}")
             created_now = True
 
-        ws.next_actions = "✅ No pending actions" if ws.matrix_room_id else "Create Matrix room"
+        ws.next_actions = " No pending actions" if ws.matrix_room_id else "Create Matrix room"
 
         if created_now:
             ws.latest_summary = "Matrix room created"

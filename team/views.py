@@ -16,7 +16,7 @@ def _clean_tab(tab: str) -> str:
 
 def _list_url(request, tab: str) -> str:
     """
-    Preserve filters + page while going back.
+    this Preserve filters + page while going back.
     """
     q = {
         "tab": tab,
@@ -154,7 +154,7 @@ def team_member_delete(request, member_id: int):
 
     member = get_object_or_404(TeamMember, id=member_id)
 
-    # email before delete (after delete you lose fields)
+    # email before delete (after delete we lose fields)
     try:
         send_team_member_email("DELETED", member.first_name, member.last_name, member.email)
     except Exception as e:

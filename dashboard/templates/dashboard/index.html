@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Control Tower Dashboard{% endblock %}
-{% block header_title %}Control Tower{% endblock %}
+{% blocks title %}Control Tower Dashboard{% endblock %}
+{% blocks header_title %}Control Tower{% endblock %}
 
 {% block extra_style %}
 <style>
@@ -167,7 +167,7 @@
           </td>
 
           <td>
-            {% if ws.next_actions == "✅ No pending actions" or "No pending actions" in ws.next_actions %}
+            {% if ws.next_actions == " No pending actions" or "No pending actions" in ws.next_actions %}
               <span class="ok-pill">
                 <svg class="ok-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path d="M9.2 12.7l1.9 1.9 4.7-4.7" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>

@@ -126,7 +126,7 @@
   <div class="container">
     <div class="card">
 
-      <!-- ✅ Move form OUTSIDE table rows to avoid invalid HTML -->
+
       <form method="get">
         <table>
           <thead>
@@ -183,7 +183,7 @@
                   {% endif %}
                 </td>
 
-                <!-- ✅ Matrix Room cleaned: remove "!" and ":localhost" -->
+
                 <td>
                   {% if ws.matrix_room_id %}
                     <span class="mono">{{ ws.matrix_room_id|cut:"!"|cut:":localhost" }}</span>
