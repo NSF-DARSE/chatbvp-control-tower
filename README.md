@@ -905,6 +905,29 @@ The workflow test simulates:
 
 External dependencies such as Ollama, Matrix, and SMTP are mocked to ensure deterministic testing.
 
+
+## API Documentation
+
+The project includes Swagger/OpenAPI documentation for all major APIs.
+
+Swagger UI:
+
+```text
+http://127.0.0.1:8000/swagger/
+
+## OpenAPI Specification:
+/api/openapi.yaml
+
+
+Documented API categories include:
+
+Intake APIs
+Event APIs
+Workspace APIs
+Team Management APIs
+Audit APIs
+
+
 ### Run Tests
 
 ```bash

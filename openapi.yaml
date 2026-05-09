@@ -14,6 +14,7 @@ tags:
   - name: Intake
   - name: Events
   - name: Workspaces
+  - name: Team
   - name: Audit
 
 paths:
@@ -46,17 +47,6 @@ paths:
       responses:
         "200":
           description: Event created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 12
-                  status:
-                    type: string
-                    example: NEW
 
   /api/events/{event_id}/run/:
     post:
@@ -68,27 +58,9 @@ paths:
           required: true
           schema:
             type: integer
-            example: 12
       responses:
         "200":
           description: Workflow executed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  event_id:
-                    type: integer
-                    example: 12
-                  status:
-                    type: string
-                    example: DONE
-                  structured_output:
-                    type: object
-                    nullable: true
-                  raw_response:
-                    type: string
-                    example: "{\"summary\":\"...\"}"
 
   /dashboard/:
     get:
@@ -96,7 +68,7 @@ paths:
       summary: View workspace dashboard (HTML)
       responses:
         "200":
-          description: Dashboard page (HTML)
+          description: Dashboard page
 
   /dashboard/ws/{workspace_id}/:
     get:
@@ -108,22 +80,20 @@ paths:
           required: true
           schema:
             type: integer
-            example: 3
       responses:
         "200":
-          description: Workspace detail page (HTML)
+          description: Workspace detail page
 
   /dashboard/ws/{workspace_id}/retry/:
     post:
       tags: [Workspaces]
-      summary: Retry workflow for workspace (redirect)
+      summary: Retry workflow for workspace
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: integer
-            example: 3
       responses:
         "302":
           description: Redirect to workspace detail page
@@ -131,17 +101,77 @@ paths:
   /dashboard/ws/{workspace_id}/matrix/:
     post:
       tags: [Workspaces]
-      summary: Create Matrix room for workspace (redirect)
+      summary: Create Matrix room for workspace
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: integer
-            example: 3
       responses:
         "302":
           description: Redirect to workspace detail page
+
+  /team/members/:
+    get:
+      tags: [Team]
+      summary: View all team members
+      responses:
+        "200":
+          description: Team members page
+
+    post:
+      tags: [Team]
+      summary: Add new team member
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: Brahmendra
+                last_name:
+                  type: string
+                  example: Jayaraju
+                email:
+                  type: string
+                  example: brahmendra@example.com
+      responses:
+        "302":
+          description: Redirect after creating member
+
+  /team/members/{member_id}/edit/:
+    post:
+      tags: [Team]
+      summary: Edit team member
+      parameters:
+        - name: member_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "302":
+          description: Redirect after editing member
+
+  /team/members/{member_id}/delete/:
+    post:
+      tags: [Team]
+      summary: Delete team member
+      parameters:
+        - name: member_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "302":
+          description: Redirect after deleting member
 
   /audit/api/{correlation_id}/:
     get:
@@ -156,28 +186,4 @@ paths:
             example: 928a0df4-2643-4360-b9a2-d213ee126e00
       responses:
         "200":
-          description: Audit logs (JSON)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  correlation_id:
-                    type: string
-                  logs:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        created_at:
-                          type: string
-                          example: "2026-04-15T01:42:39Z"
-                        step_name:
-                          type: string
-                          example: EVENT_STATUS
-                        status:
-                          type: string
-                          example: SUCCESS
-                        message:
-                          type: string
-                          example: DONE
+          description: Audit logs JSON
