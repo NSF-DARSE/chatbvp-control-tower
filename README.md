@@ -874,7 +874,7 @@ The project includes automated unit and integration tests covering core system c
 
 ### Test Structure
 
-tests/
+UnitTestCases/
 ├── test_intake.py
 ├── test_events.py
 ├── test_dashboard.py
