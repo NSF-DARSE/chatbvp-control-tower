@@ -688,7 +688,6 @@ ALL SERVICES STARTED
 Service responsibilities:
 
 | Service | Responsibility |
-|---|---|
 | Django | Web UI, APIs, forms, dashboard |
 | PostgreSQL | Persistent storage |
 | Redis | Celery message broker |
@@ -800,7 +799,6 @@ DEFAULT_FROM_EMAIL=your-email@example.com
 ## Application Routes
 
 | Route | Description |
-|---|---|
 | `/` | User intake form |
 | `/dashboard/` | Internal dashboard |
 | `/dashboard/ws/<id>/` | Workspace detail |
