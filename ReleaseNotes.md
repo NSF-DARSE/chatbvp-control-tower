@@ -129,7 +129,7 @@ Infrastructure includes:
 
 # API Documentation
 
-Swagger/OpenAPI documentation available at:
+Swagger documentation available at:
 
 
 /swagger/
